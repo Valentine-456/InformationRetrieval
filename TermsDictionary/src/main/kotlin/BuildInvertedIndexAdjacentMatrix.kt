@@ -17,6 +17,20 @@ fun buildInvertedIndexAdjacentMatrix(termsDictionary: TermsDictionary):
     }
     return Pair(invertedIndex, adjacentMatrixOfTerms)
 }
+fun buildInvertedIndex(termsDictionary: TermsDictionary):
+        ArrayList<Pair<String, ArrayList<Int>>> {
+    val (termsDict, totalNumberOfWords, parsedFiles, _) = termsDictionary
+    val invertedIndex = ArrayList<Pair<String, ArrayList<Int>>>(totalNumberOfWords)
+    termsDict.forEach { word ->
+        invertedIndex.add(Pair(word, ArrayList()))
+        parsedFiles.forEachIndexed  { bookIndex, parsedBook ->
+            if(parsedBook.contains(word)) {
+                invertedIndex.last().second.add(bookIndex+1)
+            }
+        }
+    }
+    return invertedIndex
+}
 
 fun writeAdjacentMatrixToFile(adjacentMatrixOfTerms: ArrayList<Pair<String,Array<Int>>>) {
     val adjacentMatrixWriter = resolveFileWriter("AdjacentMatrixOfTerms.txt")
