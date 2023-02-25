@@ -1,6 +1,10 @@
+package IndexedCollection
+
 import kotlinx.coroutines.*
 import java.io.File
 import FileParsers.FB2Parser
+import printStatisticsOfFile
+import resolveFileWriter
 
 suspend fun buildTermsDictionary(collectionDir: String): TermsDictionary = runBlocking {
     val coroutines = mutableListOf<Job>()

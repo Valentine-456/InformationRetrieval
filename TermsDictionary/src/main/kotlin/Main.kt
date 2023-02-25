@@ -1,3 +1,5 @@
+import IndexedCollection.buildTermsDictionary
+import Search.BooleanSearch
 import kotlinx.coroutines.*
 
 fun main() = runBlocking {
@@ -8,8 +10,11 @@ fun main() = runBlocking {
     val booleanSearch = BooleanSearch(termsDictionary, invertedIndex)
     println(booleanSearch.searchByQuery("fire AND horror"))
     println(booleanSearch.searchByQuery("rust OR iron"))
-    println(booleanSearch.searchByQuery("war"))
-    println(booleanSearch.searchByQuery("romania OR china AND europe"))
-    println(booleanSearch.searchByQuery("vampire"))
+    println(booleanSearch.searchByQuery("war   "))
+    println(booleanSearch.searchByQuery("coal AND ( asia OR europe )"))
+    println(booleanSearch.searchByQuery("( vampire OR ( tears AND death ) ) OR chaos"))
+    println(booleanSearch.searchByQuery("chaos OR ( vampire OR ( tears AND death ) )"))
+    println(booleanSearch.searchByQuery("( czech OR ( poland OR asia ) ) AND ( germany AND france ) OR ( mary AND shelly )"))
+
 
 }
