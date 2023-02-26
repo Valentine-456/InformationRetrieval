@@ -1,5 +1,7 @@
-import IndexedCollection.buildTermsDictionary
-import Search.BooleanSearch
+import indexes.invertedIndex.buildInvertedIndex
+import indexes.termsDictionary.buildTermsDictionary
+import indexes.invertedIndex.writeInvertedIndexToFile
+import indexes.invertedIndex.BooleanSearch
 import kotlinx.coroutines.*
 
 fun main() = runBlocking {

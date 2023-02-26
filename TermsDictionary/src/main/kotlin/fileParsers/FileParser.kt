@@ -1,4 +1,4 @@
-package FileParsers
+package fileParsers
 
 interface FileParser {
     val path: String

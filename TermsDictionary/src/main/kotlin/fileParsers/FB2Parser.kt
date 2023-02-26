@@ -1,4 +1,4 @@
-package FileParsers
+package fileParsers
 
 import com.kursx.parser.fb2.FictionBook
 import kotlinx.coroutines.*

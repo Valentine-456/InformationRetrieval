@@ -1,11 +1,12 @@
-package Search
+package indexes.invertedIndex
 
-import IndexedCollection.TermsDictionary
-import Utils.findClosingBracketPosition
+import indexes.termsDictionary.*
+import utils.findClosingBracketPosition
+import kotlin.collections.ArrayList
 
 class BooleanSearch(
     private val termsDictionary: TermsDictionary,
-    private val invertedIndex: ArrayList<Pair<String, ArrayList<Int>>>
+    private val invertedIndex: SimpleInvertedIndex
     ) {
     private val operatorsList = arrayOf("AND", "OR")
     fun searchByQuery(query: String): ArrayList<String> {
@@ -25,7 +26,7 @@ class BooleanSearch(
             parseQuery(tokensList.slice(1 until closingBracketPosition) as ArrayList<String>)
         } else {
             currentTokenPosition = 1
-            lookupTermInIndex(tokensList[0].lowercase()).second
+            lookupTermInIndex(tokensList[0].lowercase())
         }
 
         while(currentTokenPosition < tokensList.size-1) {
@@ -47,8 +48,7 @@ class BooleanSearch(
 
                     currentTokenShift = closingBracketPosition + 2
                 } else {
-                    val termAfter = lookupTermInIndex(tokenAfter.lowercase())
-                    intermediateResult = termAfter.second
+                    intermediateResult = lookupTermInIndex(tokenAfter.lowercase())
                     currentTokenShift = 2
                 }
                 result = if(tokensList[currentTokenPosition] == "OR"){
@@ -62,10 +62,10 @@ class BooleanSearch(
         }
         return result
     }
-    private fun lookupTermInIndex(token: String): Pair<String, ArrayList<Int>> {
-        var term = invertedIndex.find { pair -> pair.first == token }
+    private fun lookupTermInIndex(token: String): ArrayList<Int> {
+        var term = invertedIndex[token]
         if (term == null) {
-            term = Pair(token,ArrayList())
+            term = ArrayList()
         }
         return term
     }

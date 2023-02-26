@@ -1,4 +1,4 @@
-package Utils
+package utils
 
 fun main() {
     val list = arrayListOf("(" ,"vampire", "chaos", "OR" ,")", "OR", "(", "tears", "AND", "death", ")", "OR", "(", "tears", "AND", "death", ")")
