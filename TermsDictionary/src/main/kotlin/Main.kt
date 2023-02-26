@@ -1,22 +1,24 @@
-import indexes.invertedIndex.buildInvertedIndex
+import indexes.coordinateInvertedIndex.CoordinateInvertedIndex
+import indexes.doubleTermIndex.DoubleTermInvertedIndex
+import indexes.invertedIndex.InvertedIndex
 import indexes.termsDictionary.buildTermsDictionary
-import indexes.invertedIndex.writeInvertedIndexToFile
-import indexes.invertedIndex.BooleanSearch
+import indexes.termsDictionary.writeTermsDictionaryToFile
 import kotlinx.coroutines.*
+import utils.writeCoordinateInvertedIndexToFile
+import utils.writeInvertedIndexToFile
 
 fun main() = runBlocking {
     val termsDictionary = buildTermsDictionary("./src/main/resources/collection")
-    val invertedIndex = buildInvertedIndex(termsDictionary)
+    writeTermsDictionaryToFile(termsDictionary)
+
+    val invertedIndex = InvertedIndex().buildInvertedIndex(termsDictionary)
     writeInvertedIndexToFile(invertedIndex)
 
-    val booleanSearch = BooleanSearch(termsDictionary, invertedIndex)
-    println(booleanSearch.searchByQuery("fire AND horror"))
-    println(booleanSearch.searchByQuery("rust OR iron"))
-    println(booleanSearch.searchByQuery("war   "))
-    println(booleanSearch.searchByQuery("coal AND ( asia OR europe )"))
-    println(booleanSearch.searchByQuery("( vampire OR ( tears AND death ) ) OR chaos"))
-    println(booleanSearch.searchByQuery("chaos OR ( vampire OR ( tears AND death ) )"))
-    println(booleanSearch.searchByQuery("( czech OR ( poland OR asia ) ) AND ( germany AND france ) OR ( mary AND shelly )"))
+    val doubleTermsInvertedIndex = DoubleTermInvertedIndex()
+        doubleTermsInvertedIndex.buildInvertedIndex(termsDictionary)
+    writeInvertedIndexToFile(doubleTermsInvertedIndex, "DoubleTermInvertedIndex.txt")
 
+    val coordinateInvertedIndex = CoordinateInvertedIndex().buildInvertedIndex(termsDictionary)
+    writeCoordinateInvertedIndexToFile(coordinateInvertedIndex)
 
 }

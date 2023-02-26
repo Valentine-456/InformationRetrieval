@@ -1,9 +1,7 @@
 package utils
 
-fun main() {
-    val list = arrayListOf("(" ,"vampire", "chaos", "OR" ,")", "OR", "(", "tears", "AND", "death", ")", "OR", "(", "tears", "AND", "death", ")")
-    print(findClosingBracketPosition(list.slice(6 until list.size) as ArrayList<String>))
-}
+//    val list = arrayListOf("(" ,"vampire", "chaos", "OR" ,")", "OR", "(", "tears", "AND", "death", ")", "OR", "(", "tears", "AND", "death", ")")
+//    print(findClosingBracketPosition(list.slice(6 until list.size) as ArrayList<String>))
 
 fun findClosingBracketPosition (tokens: ArrayList<String>): Int {
     var nestedBracketsLevel = 1

@@ -9,7 +9,7 @@ val processWord = fun (word: String): String {
     var wordProcessed = word.trim().lowercase()
     if(wordProcessed.isEmpty()) return ""
 
-    val forbiddenSymbols = arrayOf(',', '.', '\n', '\'', '\"', '?', '!', '“', '”', ';', ':', '(', ')', '‘', '-', '—', '’', '[', ']')
+    val forbiddenSymbols = arrayOf(',', '.', '\n', '\'', '\"', '?', '!', '“', '”', ';', ':', '(', ')', '‘', '-', '—', '’', '[', ']', '…', '<', '>')
     var hasForbiddenCharOnEnds = true
     while(hasForbiddenCharOnEnds) {
         if(wordProcessed.isEmpty()) return ""

@@ -14,7 +14,7 @@ class FB2Parser(override val path: String) : FileParser {
             val tokens = ArrayList<String>()
             fb2.body.sections.forEach {
                 it.elements.forEach {
-                    val wordsInLine = it.text.split(" ", "\t")
+                    val wordsInLine = it.text.split(" ", "\t", ",—", ".—", ".-", ",-", "”—", "—“")
                     wordsInLine.forEach {
                             word -> if(processWord(word) != "") tokens.add(processWord(word))
                     }

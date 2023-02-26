@@ -4,9 +4,15 @@ import indexes.termsDictionary.*
 import utils.findClosingBracketPosition
 import kotlin.collections.ArrayList
 
+//    println(booleanSearch.searchByQuery("war   "))
+//    println(booleanSearch.searchByQuery("coal AND ( asia OR europe )"))
+//    println(booleanSearch.searchByQuery("( vampire OR ( tears AND death ) ) OR chaos"))
+//    println(booleanSearch.searchByQuery("chaos OR ( vampire OR ( tears AND death ) )"))
+//    println(booleanSearch.searchByQuery("( czech OR ( poland OR asia ) ) AND ( germany AND france ) OR ( mary AND shelly )"))
+
 class BooleanSearch(
     private val termsDictionary: TermsDictionary,
-    private val invertedIndex: SimpleInvertedIndex
+    private val invertedIndex: InvertedIndex
     ) {
     private val operatorsList = arrayOf("AND", "OR")
     fun searchByQuery(query: String): ArrayList<String> {
@@ -63,7 +69,7 @@ class BooleanSearch(
         return result
     }
     private fun lookupTermInIndex(token: String): ArrayList<Int> {
-        var term = invertedIndex[token]
+        var term = invertedIndex.index[token]
         if (term == null) {
             term = ArrayList()
         }
