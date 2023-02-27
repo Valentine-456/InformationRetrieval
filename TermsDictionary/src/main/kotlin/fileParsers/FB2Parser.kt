@@ -6,6 +6,7 @@ import org.xml.sax.SAXException
 import java.io.File
 import java.io.IOException
 import javax.xml.parsers.ParserConfigurationException
+import utils.processWord
 
 class FB2Parser(override val path: String) : FileParser {
     override suspend fun parseFile(): Any = coroutineScope {

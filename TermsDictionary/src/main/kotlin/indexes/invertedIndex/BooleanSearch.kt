@@ -10,12 +10,12 @@ import kotlin.collections.ArrayList
 //    println(booleanSearch.searchByQuery("chaos OR ( vampire OR ( tears AND death ) )"))
 //    println(booleanSearch.searchByQuery("( czech OR ( poland OR asia ) ) AND ( germany AND france ) OR ( mary AND shelly )"))
 
-class BooleanSearch(
+open class BooleanSearch(
     private val termsDictionary: TermsDictionary,
     private val invertedIndex: InvertedIndex
     ) {
     private val operatorsList = arrayOf("AND", "OR")
-    fun searchByQuery(query: String): ArrayList<String> {
+    open fun searchByQuery(query: String): ArrayList<String> {
         val tokens = query.split(" ").map { token -> token.trim() } as ArrayList
         while("" in tokens) {
             tokens.remove("")
@@ -68,14 +68,14 @@ class BooleanSearch(
         }
         return result
     }
-    private fun lookupTermInIndex(token: String): ArrayList<Int> {
+    protected fun lookupTermInIndex(token: String): ArrayList<Int> {
         var term = invertedIndex.index[token]
         if (term == null) {
             term = ArrayList()
         }
         return term
     }
-    private fun intersectLists(list1: ArrayList<Int>, list2: ArrayList<Int>): ArrayList<Int> {
+    protected fun intersectLists(list1: ArrayList<Int>, list2: ArrayList<Int>): ArrayList<Int> {
         val answer = ArrayList<Int>()
         if(list1.isEmpty() or list2.isEmpty()) return answer
         var position1 = 0
@@ -93,7 +93,7 @@ class BooleanSearch(
         }
         return answer
     }
-    private fun unionLists(list1: ArrayList<Int>, list2: ArrayList<Int>): ArrayList<Int> {
+    protected fun unionLists(list1: ArrayList<Int>, list2: ArrayList<Int>): ArrayList<Int> {
         val answer = ArrayList<Int>()
         if(list1.isEmpty() ) return list2
         else if(list2.isEmpty()) return list1
