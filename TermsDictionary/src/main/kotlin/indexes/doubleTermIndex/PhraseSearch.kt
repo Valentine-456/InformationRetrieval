@@ -4,6 +4,10 @@ import indexes.invertedIndex.BooleanSearch
 import indexes.termsDictionary.TermsDictionary
 import utils.processWord
 
+//    println(phraseSearch.searchByQuery("I declare after all there is no enjoyment like reading"))
+//    println(phraseSearch.searchByQuery("We live in society"))
+//    println(phraseSearch.searchByQuery("We live on a placid island of ignorance, in the midst of black seas of infinity"))
+
 class PhraseSearch (
     private val termsDictionary: TermsDictionary,
     private val invertedIndex: DoubleTermInvertedIndex
