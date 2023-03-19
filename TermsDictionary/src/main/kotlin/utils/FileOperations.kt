@@ -46,3 +46,19 @@ fun writeCoordinateInvertedIndexToFile(invertedIndex: CoordinateInvertedIndex, f
     invertedIndexWriter.close()
     printStatisticsOfFile(filename)
 }
+
+fun getAllCharsFromFile(filename: String): Array<Char> {
+    val file = File("./src/main/resources/$filename")
+    val reader = file.bufferedReader()
+    val set = HashSet<Char>()
+    var nextLine = reader.readLine()
+    while(nextLine != null) {
+        set.addAll(nextLine.toCharArray().toList())
+        nextLine = reader.readLine()
+    }
+    val sortedChars = Array<Char>(set.size) { 'a' }
+    set.forEachIndexed { i, char ->
+        sortedChars[i] = char
+    }
+    return sortedChars.sortedArray()
+}

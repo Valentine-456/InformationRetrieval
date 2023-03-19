@@ -1,10 +1,16 @@
 package utils
 
+import java.text.Normalizer
+
 val processWord = fun (word: String): String {
     var wordProcessed = word.trim().lowercase()
     if(wordProcessed.isEmpty()) return ""
+    wordProcessed = Normalizer
+        .normalize(wordProcessed, Normalizer.Form.NFKD)
+        .replace("\\p{InCombiningDiacriticalMarks}+".toRegex(), "");
 
-    val forbiddenSymbols = arrayOf(',', '.', '\n', '\'', '\"', '?', '!', '“', '”', ';', ':', '(', ')', '‘', '-', '—', '’', '[', ']', '…', '<', '>')
+
+    val forbiddenSymbols = arrayOf(',', '.', '\n', '\'', '\"', '?', '!', '“', '”', ';', ':', '(', ')', '‘', '-', '—', '’', '[', ']', '…', '<', '>', 'ʹ', 'ʺ', '×', '`', '”', '_')
     var hasForbiddenCharOnEnds = true
     while(hasForbiddenCharOnEnds) {
         if(wordProcessed.isEmpty()) return ""
