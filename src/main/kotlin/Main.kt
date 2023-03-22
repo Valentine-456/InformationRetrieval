@@ -1,38 +1,40 @@
-import indexes.termsBTree.TermsBTree
+import indexes.kGramIndex.KGramIndex
 import indexes.termsDictionary.buildTermsDictionary
 import indexes.termsDictionary.writeTermsDictionaryToFile
 import kotlinx.coroutines.runBlocking
-import utils.getAllCharsFromFile
 
 fun main(): Unit = runBlocking {
     val termsDictionary = buildTermsDictionary("./src/main/resources/collection")
     writeTermsDictionaryToFile(termsDictionary)
 
-    val charset = getAllCharsFromFile("TermsDictionary.txt")
-    charset.forEach { print(it) }
+    val kGram2Index = KGramIndex(2)
+    kGram2Index.buildInvertedIndex(termsDictionary)
+    val res1 = kGram2Index.getListOfIndexesWithKGram("r ")
+    kGram2Index.mapIndexesToTerms(res1).forEach {
+        print("$it, ")
+    }
+    print("\n")
+    val res2 = kGram2Index.getListOfIndexesWithKGram(" r")
+    kGram2Index.mapIndexesToTerms(res2).forEach {
+        print("$it, ")
+    }
     print("\n")
 
-    val termsBTree = TermsBTree(termsDictionary, charset, reverseTree = false)
-    termsBTree.buildTermsBTree()
-    val reversedTermsBTree = TermsBTree(termsDictionary, charset, reverseTree = true)
-    reversedTermsBTree.buildTermsBTree()
-    println("BTrees of terms is successfully built!")
-
-    val termsByPrefix = termsBTree.findAllTermsByAffix("house")
-    val termsByPrefix2 = termsBTree.findAllTermsByAffix("dar")
-    termsByPrefix.forEach { print("$it, ") }
+    val kGram3Index = KGramIndex()
+    kGram3Index.buildInvertedIndex(termsDictionary)
+    val res3 = kGram3Index.getListOfIndexesWithKGram("ad ")
+    kGram3Index.mapIndexesToTerms(res3).forEach {
+        print("$it, ")
+    }
     print("\n")
-    termsByPrefix2.forEach { print("$it, ") }
+    val res4 = kGram3Index.getListOfIndexesWithKGram(" he")
+    kGram3Index.mapIndexesToTerms(res4).forEach {
+        print("$it, ")
+    }
     print("\n")
-
-    val termsBySuffix1 = reversedTermsBTree.findAllTermsByAffix("paired")
-    termsBySuffix1.forEach { print("$it, ") }
-    print("\n")
-    val termsBySuffixBuggy = reversedTermsBTree.findAllTermsByAffix("repaired")
-    termsBySuffixBuggy.forEach { print("$it, ") }
-    print("\n")
-
-    val termsBySuffix2 = reversedTermsBTree.findAllTermsByAffix("dire")
-    termsBySuffix2.forEach { print("$it, ") }
+    val res5 = kGram3Index.getListOfIndexesWithKGram("the")
+    kGram3Index.mapIndexesToTerms(res5).forEach {
+        print("$it, ")
+    }
     print("\n")
 }
