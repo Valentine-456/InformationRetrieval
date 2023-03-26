@@ -7,31 +7,22 @@ import java.util.*
 // val kGram2Index = KGramIndex(2)
 //    kGram2Index.buildInvertedIndex(termsDictionary)
 //    val res1 = kGram2Index.getListOfIndexesWithKGram("r ")
-//    kGram2Index.mapIndexesToTerms(res1).forEach {
-//        print("$it, ")
-//    }
+//    kGram2Index.mapIndexesToTerms(res1).forEach { print("$it, ") }
 //    print("\n")
 //    val res2 = kGram2Index.getListOfIndexesWithKGram(" r")
-//    kGram2Index.mapIndexesToTerms(res2).forEach {
-//        print("$it, ")
-//    }
+//    kGram2Index.mapIndexesToTerms(res2).forEach { print("$it, ") }
 //    print("\n")
-//
 //
 //    val kGram3Index = KGramIndex()
 //    kGram3Index.buildInvertedIndex(termsDictionary)
 //    val res3 = kGram3Index.getListOfIndexesWithKGram("ad ")
-//    kGram3Index.mapIndexesToTerms(res3).forEach {
-//        print("$it, ")
-//    }
+//    kGram3Index.mapIndexesToTerms(res3).forEach { print("$it, ") }
 //    print("\n")
 //    val res4 = kGram3Index.getListOfIndexesWithKGram(" he")
-//    kGram3Index.mapIndexesToTerms(res4).forEach {
-//        print("$it, ")
-//    }
+//    kGram3Index.mapIndexesToTerms(res4).forEach { print("$it, ") }
 //    print("\n")
 
-class KGramIndex(private val k: Int = 3) : InvertedIndex() {
+class KGramIndex(val k: Int = 3) : InvertedIndex() {
     private val termsListOrdered: TreeMap<Int, String> = TreeMap()
 
     override fun buildInvertedIndex(termsDictionary: TermsDictionary): InvertedIndex {

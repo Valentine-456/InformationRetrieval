@@ -15,14 +15,14 @@ import kotlin.math.abs
 //    println(distanceSearch.searchByPhrase("We live on a placid island of ignorance, in the midst of black seas of infinity"))
 //    println(distanceSearch.searchByPhrase("And if you are not crushed by such a pressure, it is because the air penetrates the interior of your body with equal pressure. Hence perfect equilibrium between the interior and exterior pressure, which thus neutralise each other, and which"))
 
-class DistanceSearch(
+open class DistanceSearch(
     private val termsDictionary: TermsDictionary,
     private val coordinateIndex: CoordinateInvertedIndex
 ) {
-    private val booleanOperationList = arrayOf("AND", "OR")
-    private val nearOperator = "^NEAR[0-9]+\$".toRegex()
+    protected val booleanOperationList = arrayOf("AND", "OR")
+    protected val nearOperator = "^NEAR[0-9]+\$".toRegex()
 
-    fun searchByPhrase(query: String): ArrayList<String> {
+    open fun searchByPhrase(query: String): ArrayList<String> {
         val tokens = preprocessQuery(query.lowercase()).map(processWord) as ArrayList
         val tokensWithOperators = arrayListOf<String>()
         tokens.forEachIndexed { index, token ->
@@ -35,13 +35,13 @@ class DistanceSearch(
         return result.map { index -> termsDictionary.filesIDs[index] } as ArrayList<String>
     }
 
-    fun searchByQueryInNeighborhood(query: String): ArrayList<String> {
+    open fun searchByQueryInNeighborhood(query: String): ArrayList<String> {
         val tokens = this.preprocessQuery(query)
         val result = parseQueryInNeighborhood(tokens)
         return result.map { index -> termsDictionary.filesIDs[index] } as ArrayList<String>
     }
 
-    private fun parseQueryInNeighborhood(tokensList: ArrayList<String>): ArrayList<Int> {
+    protected open fun parseQueryInNeighborhood(tokensList: ArrayList<String>): ArrayList<Int> {
         val positionsOfOperatorsInQuery = arrayListOf<Int>()
         tokensList.forEachIndexed { index, token ->
             if (token.matches(nearOperator)) positionsOfOperatorsInQuery.add(index)
@@ -59,13 +59,13 @@ class DistanceSearch(
         return result.map { it.first } as ArrayList<Int>
     }
 
-    fun searchByBooleanQuery(query: String): ArrayList<String> {
+    open fun searchByBooleanQuery(query: String): ArrayList<String> {
         val tokens = this.preprocessQuery(query)
         val result = parseBooleanQuery(tokens)
         return result.map { index -> termsDictionary.filesIDs[index] } as ArrayList<String>
     }
 
-    private fun parseBooleanQuery(tokensList: ArrayList<String>): ArrayList<Int> {
+    protected open fun parseBooleanQuery(tokensList: ArrayList<String>): ArrayList<Int> {
         var result: ArrayList<Int>
         var currentTokenPosition: Int
         result = if (tokensList[0] == "(") {
@@ -111,7 +111,7 @@ class DistanceSearch(
         return result
     }
 
-    private fun preprocessQuery(query: String): ArrayList<String> {
+    protected fun preprocessQuery(query: String): ArrayList<String> {
         val tokens = query.split(" ").map { token -> token.trim() } as ArrayList
         while ("" in tokens) {
             tokens.remove("")
@@ -119,7 +119,7 @@ class DistanceSearch(
         return tokens
     }
 
-    private fun lookupTermInIndex(token: String): ArrayList<Pair<Int, ArrayList<Int>>> {
+    protected open fun lookupTermInIndex(token: String): ArrayList<Pair<Int, ArrayList<Int>>> {
         var term = coordinateIndex.index[token]
         if (term == null) {
             term = ArrayList()
@@ -127,7 +127,7 @@ class DistanceSearch(
         return term
     }
 
-    private fun intersectLists(list1: ArrayList<Int>, list2: ArrayList<Int>): ArrayList<Int> {
+    protected fun intersectLists(list1: ArrayList<Int>, list2: ArrayList<Int>): ArrayList<Int> {
         val answer = ArrayList<Int>()
         if (list1.isEmpty() or list2.isEmpty()) return answer
         var position1 = 0
@@ -146,7 +146,7 @@ class DistanceSearch(
         return answer
     }
 
-    private fun unionLists(list1: ArrayList<Int>, list2: ArrayList<Int>): ArrayList<Int> {
+    protected fun unionLists(list1: ArrayList<Int>, list2: ArrayList<Int>): ArrayList<Int> {
         val answer = ArrayList<Int>()
         if (list1.isEmpty()) return list2
         else if (list2.isEmpty()) return list1
@@ -180,7 +180,7 @@ class DistanceSearch(
         return answer
     }
 
-    private fun findInNeighbourhood(
+    protected fun findInNeighbourhood(
         list1: ArrayList<Pair<Int, ArrayList<Int>>>,
         list2: ArrayList<Pair<Int, ArrayList<Int>>>,
         distance: Int
