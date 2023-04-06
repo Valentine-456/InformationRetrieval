@@ -3,12 +3,6 @@ package indexes.invertedIndex
 import indexes.termsDictionary.TermsDictionary
 import utils.findClosingBracketPosition
 
-//    println(booleanSearch.searchByQuery("war   "))
-//    println(booleanSearch.searchByQuery("coal AND ( asia OR europe )"))
-//    println(booleanSearch.searchByQuery("( vampire OR ( tears AND death ) ) OR chaos"))
-//    println(booleanSearch.searchByQuery("chaos OR ( vampire OR ( tears AND death ) )"))
-//    println(booleanSearch.searchByQuery("( czech OR ( poland OR asia ) ) AND ( germany AND france ) OR ( mary AND shelly )"))
-
 open class BooleanSearch(
     private val termsDictionary: TermsDictionary,
     private val invertedIndex: InvertedIndex

@@ -2,17 +2,6 @@ package indexes.termsBTree
 
 import indexes.termsDictionary.TermsDictionary
 
-//    val termsDictionary = buildTermsDictionary("./src/main/resources/collection")
-//    writeTermsDictionaryToFile(termsDictionary)
-//    val charset = getAllCharsFromFile("TermsDictionary.txt")
-//
-//    val termsBTree = TermsBTree(termsDictionary, charset, reverseTree = false)
-//    termsBTree.buildTermsBTree()
-//    val reversedTermsBTree = TermsBTree(termsDictionary, charset, reverseTree = true)
-//    reversedTermsBTree.buildTermsBTree()
-//
-//    val termsByPrefix = termsBTree.findAllTermsByAffix("house")
-//    val termsBySuffix = reversedTermsBTree.findAllTermsByAffix("paired")
 
 class TermsBTree(
     private val termsDictionary: TermsDictionary,
