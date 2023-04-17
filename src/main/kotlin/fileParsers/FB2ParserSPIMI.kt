@@ -1,20 +1,26 @@
 package fileParsers
 
+import com.kursx.parser.fb2.Element
 import com.kursx.parser.fb2.FictionBook
+import com.kursx.parser.fb2.Section
 import org.xml.sax.SAXException
 import utils.processWord
 import java.io.File
 import java.io.IOException
 import javax.xml.parsers.ParserConfigurationException
 
-class FB2Parser(override val path: String) : FileParser {
+class FB2ParserSPIMI(override val path: String) : FileParser {
     override fun parseFile(): Any {
         val tokens = ArrayList<String>()
         try {
             val fb2 = FictionBook(File(path))
-            fb2.body.sections.forEach {
-                it.elements.forEach {
-                    val wordsInLine = it
+            var section: Section
+            for (i in fb2.body.sections.indices) {
+                section = fb2.body.sections[i]
+                var element: Element
+                for (j in section.elements.indices) {
+                    element = section.elements[j]
+                    val wordsInLine = element
                         .text
                         .split(
                             " ",
@@ -22,8 +28,8 @@ class FB2Parser(override val path: String) : FileParser {
                             "\t",
                             ",—",
                             ".—",
-                            ".-",
                             "—",
+                            ".-",
                             ",-",
                             "”—",
                             "—“",
@@ -39,6 +45,7 @@ class FB2Parser(override val path: String) : FileParser {
                     wordsInLine.forEach { word ->
                         if (processWord(word) != "") tokens.add(processWord(word))
                     }
+
                 }
             }
             println(path.split("\\").last() + ": " + tokens.size + " words.")
